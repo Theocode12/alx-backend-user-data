@@ -5,8 +5,12 @@ from typing import List
 import re
 
 
-def filter_datum(fields: List[str], redaction: str, message: str, seperator: str):
+def filter_datum(
+    fields: List[str], redaction: str, message: str, seperator: str
+):
     """obfuscating function"""
     for field in fields:
-        message = re.sub(r"(?<={}=)[\w\d\/]*".format(field), redaction, message)
+        message = re.sub(
+            r"(?<={}=)[\w\d\/]*".format(field), redaction, message
+        )
     return message
