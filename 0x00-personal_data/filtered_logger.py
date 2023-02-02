@@ -11,6 +11,6 @@ def filter_datum(
     """obfuscating function"""
     for field in fields:
         message = re.sub(
-            r"(?<={}=)[\w\d\/]*".format(field), redaction, message
+            r"(?<={}=)[^{}]*".format(field, seperator), redaction, message
         )
     return message
