@@ -6,7 +6,7 @@ import re
 
 
 def filter_datum(
-    fields: List[str], redaction: str, message: str, seperator: str
+    fields: List[str], redaction: str, message: List[str], seperator: str
 ):
     """obfuscating function"""
     for field in fields:
