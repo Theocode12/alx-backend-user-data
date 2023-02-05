@@ -2,7 +2,9 @@
 """A module that returns the log message obfuscated"""
 
 from typing import List
+from os import getenv
 import logging
+import mysql.connector as sql_con
 import re
 
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
@@ -46,3 +48,13 @@ def get_logger() -> logging.Logger:
     stream_handler = logging.StreamHandler()
     stream_handler.setFormatter(RedactingFormatter(PII_FIELDS))
     return my_logger
+
+
+def get_db() -> sql_con.connection.MySQLConnection:
+    """Returns connector to the database"""
+    USERNAME = getenv("PERSONAL_DATA_DB_USERNAME", "root")
+    PASSWORD = getenv("PERSONAL_DATA_DB_PASSWORD", "")
+    HOST = getenv("PERSONAL_DATA_DB_HOST", "localhost")
+    DB = getenv("PERSONAL_DATA_DB_NAME")
+    connect = sql_con.connect(host=HOST, database=DB, user=USERNAME, password=PASSWORD)
+    return connect
