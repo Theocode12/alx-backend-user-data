@@ -47,6 +47,7 @@ def get_logger() -> logging.Logger:
     my_logger.propagate = False
     stream_handler = logging.StreamHandler()
     stream_handler.setFormatter(RedactingFormatter(PII_FIELDS))
+    my_logger.addHandler(stream_handler)
     return my_logger
 
 
@@ -60,3 +61,32 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         host=HOST, database=DB, user=USERNAME, password=PASSWORD
     )
     return connect
+
+
+def main() -> None:
+    """The function will obtain a database connection using get_db
+    and retrieve all rows in the users table"""
+    my_logger = get_logger()
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users")
+    for (
+        name,
+        email,
+        phone,
+        ssn,
+        password,
+        ip,
+        last_login,
+        user_agent,
+    ) in cursor:
+        user_details = "name={};email={};phone={};ssn={};"
+        user_details += "password={};ip={};last_login={};user_agent={};".format
+        (
+            name, email, phone, ssn, password, ip, last_login, user_agent
+        )
+        my_logger.info(user_details)
+
+
+if __name__ == "__main__":
+    main()
