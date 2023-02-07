@@ -17,13 +17,23 @@ class Auth(object):
             False if the path is in the excluded path
         """
         if path and excluded_paths:
-            excluded_paths = set(excluded_paths)
+            # excluded_paths = set(excluded_paths)
             if path.endswith("/"):
                 npath = path[:-1]
             else:
                 npath = path + "/"
-            if path in excluded_paths or npath in excluded_paths:
-                return False
+            # if path in excluded_paths or npath in excluded_paths:
+            #     return False
+            for ex_path in excluded_paths:
+                if (
+                    (
+                        ex_path.endswith("*")
+                        and path.startswith(ex_path.rstrip("*"))
+                    )
+                    or path == ex_path
+                    or npath == ex_path
+                ):
+                    return False
         return True
 
     def authorization_header(self, request=None) -> str:
