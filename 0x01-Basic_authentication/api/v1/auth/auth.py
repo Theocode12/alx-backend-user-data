@@ -17,13 +17,10 @@ class Auth(object):
             False if the path is in the excluded path
         """
         if path and excluded_paths:
-            # excluded_paths = set(excluded_paths)
             if path.endswith("/"):
                 npath = path[:-1]
             else:
                 npath = path + "/"
-            # if path in excluded_paths or npath in excluded_paths:
-            #     return False
             for ex_path in excluded_paths:
                 if (
                     (
@@ -48,5 +45,8 @@ class Auth(object):
         return None
 
     def current_user(self, request=None) -> TypeVar("User"):
-        """current_user method"""
+        """Overload auth and retrive a User istance from a request
+        Return:
+            Retrives a user instance if possible
+        """
         return None

@@ -2,6 +2,8 @@
 """ Creation of the BasicAuth class """
 
 from .auth import Auth
+from models.base import DATA
+from models.user import User
 from flask import request
 from typing import Tuple, TypeVar
 import base64
@@ -13,7 +15,7 @@ class BasicAuth(Auth):
     def extract_base64_authorization_header(
         self, authorization_header: str
     ) -> str:
-        """convert Authorization header to base64
+        """Extract from Authorization header the username and password
         Returns:
             Base64 encoded string of authorization header
         """
@@ -56,7 +58,11 @@ class BasicAuth(Auth):
             and isinstance(decoded_base64_authorization_header, str)
             and ":" in decoded_base64_authorization_header
         ):
-            email, password = decoded_base64_authorization_header.split(":")
+            (
+                email,
+                sep,
+                password,
+            ) = decoded_base64_authorization_header.partition(":")
             return (email, password)
 
         return (None, None)
@@ -64,4 +70,27 @@ class BasicAuth(Auth):
     def user_object_from_credentials(
         self, user_email: str, user_pwd: str
     ) -> TypeVar("User"):
-        """user object credentials"""
+        if user_email and user_pwd and DATA:
+            user_obj = User.search({"email": user_email})
+            if user_obj and user_obj[0].is_valid_password(user_pwd):
+                return user_obj[0]
+        return None
+
+    def current_user(self, request=None) -> TypeVar("User"):
+        """Overload auth and retrive a User istance from a request
+        Return:
+            Retrives a user instance if possible
+        """
+        auth_key = self.authorization_header(request)
+        if auth_key:
+            encoded_credentials = self.extract_base64_authorization_header(
+                auth_key
+            )
+            decoded_credentials = self.decode_base64_authorization_header(
+                encoded_credentials
+            )
+            user_email, user_pass = self.extract_user_credentials(
+                decoded_credentials
+            )
+            user_obj = self.user_object_from_credentials(user_email, user_pass)
+            return user_obj
