@@ -70,6 +70,10 @@ class BasicAuth(Auth):
     def user_object_from_credentials(
         self, user_email: str, user_pwd: str
     ) -> TypeVar("User"):
+        """Get the user object from credentials
+        Return:
+            The user object from credentials
+        """
         if user_email and user_pwd and DATA:
             user_obj = User.search({"email": user_email})
             if user_obj and user_obj[0].is_valid_password(user_pwd):
