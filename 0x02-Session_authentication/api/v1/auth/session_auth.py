@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" 
+"""
 Creationof the Session Auth class
 """
 
