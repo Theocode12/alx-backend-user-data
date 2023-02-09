@@ -65,6 +65,7 @@ def authorize():
                 abort(401)
             if not auth.current_user(request):
                 abort(403)
+            request.current_user = auth.current_user(request)
 
 
 if __name__ == "__main__":
