@@ -3,15 +3,16 @@
 This module handles all possible routes for
 session authentication.
 """
-from flask import abort, request, jsonify
 from api.v1.views import app_views
+from flask import abort, request, jsonify
 from models.user import User
 from os import getenv
 
 
 @app_views.route("/auth_session/login", methods=["POST"], strict_slashes=False)
 def auth_login():
-    """pass"""
+    """Authourise who to give access to
+    resources"""
     email = request.form.get("email")
     password = request.form.get("password")
     if not email:
