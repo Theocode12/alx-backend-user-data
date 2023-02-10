@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 A module that store our session in a database
 """
