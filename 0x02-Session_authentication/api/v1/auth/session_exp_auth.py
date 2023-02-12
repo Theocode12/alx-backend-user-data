@@ -5,7 +5,7 @@ set the expiration date of a session
 """
 
 from api.v1.auth.session_auth import SessionAuth
-from datetime import datetime, timedelta, time
+from datetime import datetime, timedelta
 from os import getenv
 
 

@@ -29,8 +29,6 @@ def auth_login():
             session_id = auth.create_session(user_obj[0].id)
             session_name = getenv("SESSION_NAME")
             resp = jsonify(user_obj[0].to_json())
-            print(session_name)
-            print(session_id)
             resp.set_cookie(session_name, session_id)
             return resp
 
