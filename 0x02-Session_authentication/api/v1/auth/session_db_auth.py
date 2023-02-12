@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from models.user_session import UserSession
 
 
-class SessionDbAuth(SessionExpAuth):
+class SessionDBAuth(SessionExpAuth):
     """A class that manages saving the session"""
 
     def __init__(self):
