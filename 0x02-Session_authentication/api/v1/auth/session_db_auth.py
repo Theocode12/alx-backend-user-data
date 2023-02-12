@@ -21,10 +21,11 @@ class SessionDBAuth(SessionExpAuth):
         Returns:
             A session id
         """
-        session_id = super().create_session(user_id)
-        user_session = UserSession(user_id=user_id, session_id=session_id)
-        user_session.save()
-        return session_id
+        if user_id:
+            session_id = super().create_session(user_id)
+            user_session = UserSession(user_id=user_id, session_id=session_id)
+            user_session.save()
+            return session_id
 
     def user_id_for_session_id(self, session_id=None) -> str:
         """Returns the User ID by requesting UserSession in the database
