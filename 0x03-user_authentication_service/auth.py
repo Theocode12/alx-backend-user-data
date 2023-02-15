@@ -6,6 +6,7 @@ from db import DB
 from user import User
 from sqlalchemy.orm.exc import NoResultFound
 import bcrypt
+import uuid
 
 
 class Auth:
@@ -40,6 +41,10 @@ class Auth:
             return bcrypt.checkpw(password.encode(), user_obj.hashed_password)
         except NoResultFound:
             return False
+
+    def _generate_uuid() -> str:
+        """Generate a unique identifier"""
+        return str(uuid.uuid4())
 
 
 def _hash_password(password: str) -> bytes:
