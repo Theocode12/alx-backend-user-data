@@ -56,3 +56,19 @@ class DB:
                     raise InvalidRequestError
             raise NoResultFound
         raise NoResultFound
+
+    def update_user(self, user_id: int, *args, **kwargs) -> None:
+        """
+        Updates user with date from kwargs
+        Returns:
+            None
+        """
+        user_obj = self.find_user_by(id=user_id)
+        try:
+            session = self._session
+            for attr in kwargs.keys():
+                getattr(user_obj, attr)
+                setattr(user_obj, attr, kwargs.get(attr))
+            session.commit()
+        except AttributeError:
+            raise ValueError
