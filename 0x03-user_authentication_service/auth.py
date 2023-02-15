@@ -42,9 +42,10 @@ class Auth:
         except NoResultFound:
             return False
 
-    def _generate_uuid() -> str:
-        """Generate a unique identifier"""
-        return str(uuid.uuid4())
+
+def _generate_uuid() -> str:
+    """Generate a unique identifier"""
+    return str(uuid.uuid4())
 
 
 def _hash_password(password: str) -> bytes:
